@@ -1,0 +1,42 @@
+name: x402 lint by alalanet
+description: Check your x402 paid endpoints the way buyers' agents see them; fail the build on broken payment terms.
+author: alalanet
+branding:
+  icon: shield
+  color: green
+inputs:
+  urls:
+    description: Endpoint URLs to lint, one per line.
+    required: true
+  method:
+    description: HTTP method an unpaid buyer uses (GET or POST).
+    required: false
+    default: GET
+  fail-on:
+    description: "Fail the step on this verdict or worse: fail (default) or warn."
+    required: false
+    default: fail
+  token:
+    description: Optional alalanet bearer token (seller plan) for a higher daily limit. Pass it from a secret.
+    required: false
+    default: ""
+  api:
+    description: alalanet base URL.
+    required: false
+    default: https://alalanet.com
+outputs:
+  verdict:
+    description: Worst verdict over all URLs (pass, warn or fail).
+    value: ${{ steps.lint.outputs.verdict }}
+runs:
+  using: composite
+  steps:
+    - id: lint
+      shell: bash
+      env:
+        URLS: ${{ inputs.urls }}
+        METHOD: ${{ inputs.method }}
+        FAIL_ON: ${{ inputs.fail-on }}
+        TOKEN: ${{ inputs.token }}
+        API: ${{ inputs.api }}
+      run: bash "$GITHUB_ACTION_PATH/lint.sh"

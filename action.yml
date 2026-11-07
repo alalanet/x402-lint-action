@@ -1,5 +1,5 @@
 name: x402 lint by alalanet
-description: Check your x402 paid endpoints the way buyers' agents see them; fail the build on broken payment terms.
+description: Check your x402 paid endpoints the way buyer agents see them; fail the build on broken payment terms.
 author: alalanet
 branding:
   icon: shield
